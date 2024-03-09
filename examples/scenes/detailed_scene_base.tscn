@@ -1,27 +1,18 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=2 format=3 uid="uid://byw7b7d1n1pec"]
 
-[ext_resource path="res://examples/fonts/default_font.tres" type="DynamicFont" id=1]
-[ext_resource path="res://examples/scenes/detailed_scene_base.gd" type="Script" id=2]
+[ext_resource type="Script" path="res://examples/scenes/detailed_scene_base.gd" id="2"]
 
-[node name="DetailedSceneBase" type="CanvasLayer"]
-script = ExtResource( 2 )
+[node name="DetailedSceneBase" type="VBoxContainer"]
+script = ExtResource("2")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
-anchor_right = 1.0
-margin_left = 20.0
-margin_top = 20.0
-margin_right = -20.0
-margin_bottom = 70.0
+layout_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
-margin_right = 920.0
-margin_bottom = 50.0
+layout_mode = 2
 
 [node name="BackButton" type="Button" parent="MarginContainer/HBoxContainer"]
-margin_right = 80.0
-margin_bottom = 50.0
-rect_min_size = Vector2( 80, 0 )
-custom_fonts/font = ExtResource( 1 )
+layout_mode = 2
 text = "Back"
 
 [connection signal="pressed" from="MarginContainer/HBoxContainer/BackButton" to="." method="_on_back_button_pressed"]

@@ -1,32 +1,33 @@
-var is_supported setget , _is_supported_getter
+var is_supported : get = _is_supported_getter
 
 
 func _is_supported_getter():
 	return false
 
+
 var _js_remote_config = null
-var _is_getting = false
-var _get_callback = null
-var _js_get_then = JavaScript.create_callback(self, "_on_js_get_then")
-var _js_get_catch = JavaScript.create_callback(self, "_on_js_get_catch")
+var _is_getting: bool = false
+var _get_callback: Callable = Callable()
+var _js_get_then = JavaScriptBridge.create_callback(_on_js_get_then)
+var _js_get_catch = JavaScriptBridge.create_callback(_on_js_get_catch)
 
 
-func get(options = null, callback = null):
+func get(options = null, callback: Callable = Callable()):
 	if _is_getting:
 		return
 	
-	if callback == null:
+	if callback.is_null():
 		return
 	
-	var js_options = JavaScript.create_object("Object")
-	js_options.clientFeatures = JavaScript.create_object("Array")
+	var js_options = JavaScriptBridge.create_object("Object")
+	js_options.clientFeatures = JavaScriptBridge.create_object("Array")
 	
 	if options is Bridge.RemoteConfigGetYandexOptions:
 		var client_features_type = typeof(options.client_features)
 		match client_features_type:
 			TYPE_DICTIONARY:
 				for name in options.client_features:
-					var js_feature = JavaScript.create_object("Object")
+					var js_feature = JavaScriptBridge.create_object("Object")
 					js_feature.name = name
 					js_feature.value = options.client_features[name]
 					js_options.clientFeatures.push(js_feature)
@@ -42,9 +43,10 @@ func get(options = null, callback = null):
 func _init(js_remote_config):
 	_js_remote_config = js_remote_config
 
+
 func _on_js_get_then(args):
 	_is_getting = false
-	if _get_callback == null:
+	if _get_callback.is_null():
 		return
 	
 	var data = args[0]
@@ -52,14 +54,15 @@ func _on_js_get_then(args):
 	match data_type:
 		TYPE_OBJECT:
 			var values = {}
-			var keys = JavaScript.get_interface("Object").keys(data)
+			var keys = JavaScriptBridge.get_interface("Object").keys(data)
 			for i in range(keys.length):
 				values[keys[i]] = data[keys[i]]
-			_get_callback.call_func(true, values)
+			_get_callback.call(true, values)
 		_:
-			_get_callback.call_func(true, data)
+			_get_callback.call(true, data)
+
 
 func _on_js_get_catch(args):
 	_is_getting = false
-	if _get_callback != null:
-		_get_callback.call_func(false, null)
+	if not _get_callback.is_null():
+		_get_callback.call(false, null)

@@ -1,76 +1,44 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=3 format=3 uid="uid://b1ro3k1q5l4mx"]
 
-[ext_resource path="res://examples/scenes/detailed_scene_base.tscn" type="PackedScene" id=1]
-[ext_resource path="res://examples/scenes/player.gd" type="Script" id=2]
-[ext_resource path="res://examples/fonts/default_font.tres" type="DynamicFont" id=3]
+[ext_resource type="PackedScene" uid="uid://byw7b7d1n1pec" path="res://examples/scenes/detailed_scene_base.tscn" id="1"]
+[ext_resource type="Script" path="res://examples/scenes/player.gd" id="2"]
 
-[node name="Player" instance=ExtResource( 1 )]
-script = ExtResource( 2 )
+[node name="Player" instance=ExtResource("1")]
+script = ExtResource("2")
 
 [node name="MarginContainer2" type="MarginContainer" parent="." index="1"]
-anchor_right = 1.0
-margin_left = 20.0
-margin_top = 90.0
-margin_right = -20.0
-margin_bottom = 520.0
+layout_mode = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer2" index="0"]
-margin_right = 920.0
-margin_bottom = 430.0
-custom_constants/separation = 20
+layout_mode = 2
 
 [node name="IsAuthSupported" type="Label" parent="MarginContainer2/VBoxContainer" index="0"]
-margin_right = 920.0
-margin_bottom = 28.0
-custom_fonts/font = ExtResource( 3 )
+layout_mode = 2
 text = "Is Auth Supported:"
 
 [node name="IsAuthorized" type="Label" parent="MarginContainer2/VBoxContainer" index="1"]
-margin_top = 48.0
-margin_right = 920.0
-margin_bottom = 76.0
-custom_fonts/font = ExtResource( 3 )
+layout_mode = 2
 text = "Is Authorized:"
 
 [node name="PlayerID" type="Label" parent="MarginContainer2/VBoxContainer" index="2"]
-margin_top = 96.0
-margin_right = 920.0
-margin_bottom = 124.0
-custom_fonts/font = ExtResource( 3 )
+layout_mode = 2
 text = "Player ID:"
 
 [node name="PlayerName" type="Label" parent="MarginContainer2/VBoxContainer" index="3"]
-margin_top = 144.0
-margin_right = 920.0
-margin_bottom = 172.0
-custom_fonts/font = ExtResource( 3 )
+layout_mode = 2
 text = "Player Name:"
 
 [node name="PlayerPhoto" type="TextureRect" parent="MarginContainer2/VBoxContainer" index="4"]
-margin_top = 192.0
-margin_right = 920.0
-margin_bottom = 267.0
-rect_min_size = Vector2( 75, 75 )
-expand = true
+layout_mode = 2
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer2/VBoxContainer" index="5"]
-margin_top = 287.0
-margin_right = 920.0
-margin_bottom = 337.0
-custom_constants/separation = 20
+layout_mode = 2
 
 [node name="AuthorizeButton" type="Button" parent="MarginContainer2/VBoxContainer/HBoxContainer2" index="0"]
-margin_right = 101.0
-margin_bottom = 50.0
-rect_min_size = Vector2( 0, 50 )
-custom_fonts/font = ExtResource( 3 )
+layout_mode = 2
 text = "Authorize"
 
 [node name="AuthorizationState" type="Label" parent="MarginContainer2/VBoxContainer/HBoxContainer2" index="1"]
-margin_left = 121.0
-margin_top = 11.0
-margin_right = 121.0
-margin_bottom = 39.0
-custom_fonts/font = ExtResource( 3 )
+layout_mode = 2
 
 [connection signal="pressed" from="MarginContainer2/VBoxContainer/HBoxContainer2/AuthorizeButton" to="." method="_on_authorize_button_pressed"]

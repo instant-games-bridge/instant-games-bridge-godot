@@ -1,107 +1,61 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=3 format=3 uid="uid://crt5geuo1t1rj"]
 
-[ext_resource path="res://examples/scenes/detailed_scene_base.tscn" type="PackedScene" id=1]
-[ext_resource path="res://examples/scenes/platform.gd" type="Script" id=2]
-[ext_resource path="res://examples/fonts/default_font.tres" type="DynamicFont" id=3]
+[ext_resource type="PackedScene" uid="uid://byw7b7d1n1pec" path="res://examples/scenes/detailed_scene_base.tscn" id="1"]
+[ext_resource type="Script" path="res://examples/scenes/platform.gd" id="2"]
 
-[node name="Platform" instance=ExtResource( 1 )]
-script = ExtResource( 2 )
+[node name="Platform" instance=ExtResource("1")]
+script = ExtResource("2")
 
 [node name="MarginContainer2" type="MarginContainer" parent="." index="1"]
-anchor_right = 1.0
-margin_left = 20.0
-margin_top = 90.0
-margin_right = -20.0
-margin_bottom = 520.0
+layout_mode = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer2" index="0"]
-margin_right = 920.0
-margin_bottom = 430.0
-custom_constants/separation = 20
+layout_mode = 2
 
 [node name="PlatformID" type="Label" parent="MarginContainer2/VBoxContainer" index="0"]
-margin_right = 920.0
-margin_bottom = 28.0
-custom_fonts/font = ExtResource( 3 )
+layout_mode = 2
 text = "Platform ID:"
 
 [node name="Language" type="Label" parent="MarginContainer2/VBoxContainer" index="1"]
-margin_top = 48.0
-margin_right = 920.0
-margin_bottom = 76.0
-custom_fonts/font = ExtResource( 3 )
+layout_mode = 2
 text = "Language:"
 
 [node name="Payload" type="Label" parent="MarginContainer2/VBoxContainer" index="2"]
-margin_top = 96.0
-margin_right = 920.0
-margin_bottom = 124.0
-custom_fonts/font = ExtResource( 3 )
+layout_mode = 2
 text = "Payload:"
 
 [node name="Tld" type="Label" parent="MarginContainer2/VBoxContainer" index="3"]
-margin_top = 144.0
-margin_right = 920.0
-margin_bottom = 172.0
-custom_fonts/font = ExtResource( 3 )
+layout_mode = 2
 text = "Tld:"
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer2/VBoxContainer" index="4"]
-margin_top = 192.0
-margin_right = 920.0
-margin_bottom = 242.0
-custom_constants/separation = 20
+layout_mode = 2
 
 [node name="SendGameReadyButton" type="Button" parent="MarginContainer2/VBoxContainer/HBoxContainer2" index="0"]
-margin_right = 180.0
-margin_bottom = 50.0
-rect_min_size = Vector2( 0, 50 )
-custom_fonts/font = ExtResource( 3 )
+layout_mode = 2
 text = "Send Game Ready"
 
 [node name="SendInGameLoadingStartedButton" type="Button" parent="MarginContainer2/VBoxContainer/HBoxContainer2" index="1"]
-margin_left = 200.0
-margin_right = 494.0
-margin_bottom = 50.0
-rect_min_size = Vector2( 0, 50 )
-custom_fonts/font = ExtResource( 3 )
+layout_mode = 2
 text = "Send In Game Loading Started"
 
 [node name="SendInGameLoadingStoppedButton" type="Button" parent="MarginContainer2/VBoxContainer/HBoxContainer2" index="2"]
-margin_left = 514.0
-margin_right = 818.0
-margin_bottom = 50.0
-rect_min_size = Vector2( 0, 50 )
-custom_fonts/font = ExtResource( 3 )
+layout_mode = 2
 text = "Send In Game Loading Stopped"
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer2/VBoxContainer" index="5"]
-margin_top = 262.0
-margin_right = 920.0
-margin_bottom = 312.0
-custom_constants/separation = 20
+layout_mode = 2
 
 [node name="SendGameplayStartedButton" type="Button" parent="MarginContainer2/VBoxContainer/HBoxContainer3" index="0"]
-margin_right = 229.0
-margin_bottom = 50.0
-rect_min_size = Vector2( 0, 50 )
-custom_fonts/font = ExtResource( 3 )
+layout_mode = 2
 text = "Send Gameplay Started"
 
 [node name="SendGameplayStoppedButton" type="Button" parent="MarginContainer2/VBoxContainer/HBoxContainer3" index="1"]
-margin_left = 249.0
-margin_right = 488.0
-margin_bottom = 50.0
-rect_min_size = Vector2( 0, 50 )
-custom_fonts/font = ExtResource( 3 )
+layout_mode = 2
 text = "Send Gameplay Stopped"
 
 [node name="SendPlayerGotAchievementButton" type="Button" parent="MarginContainer2/VBoxContainer/HBoxContainer3" index="2"]
-margin_left = 508.0
-margin_right = 793.0
-margin_bottom = 50.0
-rect_min_size = Vector2( 0, 50 )
-custom_fonts/font = ExtResource( 3 )
+layout_mode = 2
 text = "Send Player Got Achievement"
 
 [connection signal="pressed" from="MarginContainer2/VBoxContainer/HBoxContainer2/SendGameReadyButton" to="." method="_on_send_game_ready_button_pressed"]

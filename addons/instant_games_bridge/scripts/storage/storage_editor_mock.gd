@@ -1,6 +1,7 @@
-var default_type setget , _default_type_getter
+var default_type : get =_default_type_getter
 
 const _FILE_EXTENSION = ".save"
+
 
 func _default_type_getter():
 	return Bridge.StorageType.LOCAL_STORAGE
@@ -13,6 +14,7 @@ func is_supported(storage_type):
 		_:
 			return false
 
+
 func is_available(storage_type):
 	match storage_type:
 		Bridge.StorageType.LOCAL_STORAGE:
@@ -20,12 +22,13 @@ func is_available(storage_type):
 		_:
 			return false
 
-func get(key, callback = null, storage_type = null):
-	if callback == null:
+
+func get(key, callback: Callable = Callable(), storage_type = null):
+	if callback.is_null():
 		return
 	
 	if storage_type != null and not is_supported(storage_type):
-		callback.call_func(false, null)
+		callback.call(false, null)
 		return
 	
 	var key_type = typeof(key)
@@ -46,11 +49,13 @@ func get(key, callback = null, storage_type = null):
 		_:
 			success = false
 	
-	callback.call_func(success, data)
+	callback.call(success, data)
 
-func set(key, value, callback = null, storage_type = null):
+
+func set(key, value, callback: Callable = Callable(), storage_type = null):
+	# TODO: Check of callback.is_null() skipped?
 	if storage_type != null and not is_supported(storage_type):
-		callback.call_func(false)
+		callback.call(false)
 		return
 	
 	var key_type = typeof(key)
@@ -67,12 +72,13 @@ func set(key, value, callback = null, storage_type = null):
 		_:
 			success = false
 	
-	if callback != null:
-		callback.call_func(success)
+	if not callback.is_null():
+		callback.call(success)
 
-func delete(key, callback = null, storage_type = null):
+
+func delete(key, callback: Callable = Callable(), storage_type = null):
 	if storage_type != null and not is_supported(storage_type):
-		callback.call_func(false)
+		callback.call(false)
 		return
 	
 	var key_type = typeof(key)
@@ -89,48 +95,54 @@ func delete(key, callback = null, storage_type = null):
 		_:
 			success = false
 	
-	if callback != null:
-		callback.call_func(success)
+	if not callback.is_null():
+		callback.call(success)
 
 
-func _get_file_path(key):
+func _get_file_path(key: String) -> String:
 	return "user://" + key + _FILE_EXTENSION
 
+
 func _get(key):
-	var path = _get_file_path(key)
-	var dir = Directory.new()
+	var path: String = _get_file_path(key)
 	
-	if not dir.file_exists(path):
+	if not FileAccess.file_exists(path):
 		return null
 	
-	var file = File.new()
-	file.open(path, File.READ)
+	var file: FileAccess = FileAccess.open(path, FileAccess.READ)
+	var data: String = file.get_as_text()
+	file.close()
 	
-	var data = file.get_as_text()
-	file = null
-	
-	if data.empty():
+	if data.is_empty():
 		return null
 	else:
 		return data
 
+
 func _set(key, value):
 	var path = _get_file_path(key)
 	
-	var file = File.new()
-	file.open(path, File.WRITE)
+	var file = FileAccess.open(path, FileAccess.WRITE)
+	
+	# Convert boolean value to a 1/0 number to then easily usse bool(data[...])
+	# The problem is that a boolean is stored as 'true' / 'false' thus returning a String, 
+	# which cannot be used with bool(...). Actual JavaScript implementation of storage
+	# on the other hand returns read boolean vlaues as boolen-type objects.
+
+	if (typeof(value) == TYPE_BOOL):
+		value = 1 if value else 0
 	
 	if (typeof(value) != TYPE_STRING):
 		value = str(value)
 	
 	file.store_string(value)
-	file = null
+	file.close()
+
 
 func _delete(key):
 	var path = _get_file_path(key)
-	var dir = Directory.new()
 	
-	if not dir.file_exists(path):
+	if not FileAccess.file_exists(path):
 		return
 	
-	dir.remove(path)
+	DirAccess.remove_absolute(path)

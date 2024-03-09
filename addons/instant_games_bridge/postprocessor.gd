@@ -9,19 +9,19 @@ const SETTINGS_VK_PLAY_GAME_ID_KEY = "vk_play_game_id"
 
 var _path = null
 
+
 func _export_begin(features, is_debug, path, flags):
 	if features.has("web"):
 		_path = path
 		
-		var file_from = File.new()
-		file_from.open(JS_SDK_PATH, File.READ)
+		var file_from = FileAccess.open(JS_SDK_PATH, FileAccess.READ)
 		
-		var file_to = File.new()
-		file_to.open(path.get_base_dir() + "/" + JS_SDK_FILE_NAME, File.WRITE)
+		var file_to = FileAccess.open(path.get_base_dir() + "/" + JS_SDK_FILE_NAME, FileAccess.WRITE)
 		file_to.store_string(file_from.get_as_text())
 		
 		file_from = null
 		file_to = null
+
 
 func _export_end():
 	if _path == null:
@@ -36,8 +36,7 @@ func _export_end():
 	if ProjectSettings.has_setting(SETTINGS_PATH + SETTINGS_VK_PLAY_GAME_ID_KEY):
 		vk_play_game_id = ProjectSettings.get(SETTINGS_PATH + SETTINGS_VK_PLAY_GAME_ID_KEY)
 	
-	var index = File.new()
-	index.open(_path.get_base_dir() + "/" + INDEX_FILE_NAME, File.READ_WRITE)
+	var index = FileAccess.open(_path.get_base_dir() + "/" + INDEX_FILE_NAME, FileAccess.READ_WRITE)
 	
 	var content = index.get_as_text()
 	content = content.format({"game_distribution_game_id":game_distribution_game_id})
